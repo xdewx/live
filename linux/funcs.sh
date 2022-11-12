@@ -9,12 +9,12 @@ function log(){
     if [[ $? != 0 ]];then
         echo "parse error" && exit 1
     fi
-        newline=1
+    newline=1
     k='d'
     while true; do
         case $1 in
 			-n)
-			newline=0;shift;;
+				newline=0;shift;;
             -s|--success)
                 k=s;shift;;
             -d|--debug)
@@ -37,13 +37,14 @@ function log(){
     if [[ ! "$color" ]];then
         color=${map['d']}
     fi
-    x="\033[${color}m[${k^^} $dt] - $@\033[0m"
+	# \e==\033
+    x="\e[${color}m[${k^^} $dt] - $@\e[0m"
     # echo $k,$x
-        if [[ $newline -eq 1 ]];then
-                echo -e "$x"
-        else
-                echo -n -e "$x"
-        fi
+    if [[ $newline -eq 1 ]];then
+        echo -e "$x"
+    else
+		echo -n -e "$x"
+    fi
 }
 
 # 输出后并调用eval执行
